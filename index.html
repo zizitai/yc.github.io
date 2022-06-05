@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>同时加载两个地图</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <style>
+    body,
+    html {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: "微软雅黑";
+    }
+    #map1_container,
+    #map2_container {
+        float: left;
+        overflow: hidden;
+        width: 100%;
+        height: 50%;
+        margin: 0;
+    }
+    #allmap1 {
+        height: 100%;
+        margin: 0 0 3px;
+    }
+    #allmap2 {
+        height: 100%;
+        margin: 3px 0 0;
+    }
+    </style>
+    <script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=X9Km4DAENa5ErN3C4BZCBZWGdyioHVmn
+"></script>
+</head>
+<body>
+    <div id="map1_container">
+        <div id="allmap1"></div>
+    </div>
+    <div id="map2_container">
+        <div id="allmap2"></div>
+    </div>
+</body>
+</html>
+<script>
+// 加载第一张地图
+var map1 = new BMapGL.Map('allmap1'); // 创建Map实例1
+var point1 = new BMapGL.Point(114.33999, 30.58270);
+map1.centerAndZoom(point1, 15);
+map1.enableScrollWheelZoom();
+// 加载第二张地图
+var map2 = new BMapGL.Map('allmap2'); // 创建Map实例2
+map2.setMapType(BMAP_EARTH_MAP);
+var point2 = new BMapGL.Point(114.33999, 30.58270);
+map2.centerAndZoom(point2, 15);
+map2.enableScrollWheelZoom();
+map1.addEventListener('moving', function () {
+        map2.panTo(this.getCenter())
+
+    })
+    map1.addEventListener('zoomend', function () {
+        map2.setZoom(this.getZoom())
+    })
+var marker1 = new BMapGL.Marker(new BMapGL.Point(114.33999,30.58270));
+var marker2 = new BMapGL.Marker(new BMapGL.Point(114.25, 30.548));
+var marker3 = new BMapGL.Marker(new BMapGL.Point(114.2768, 30.592));
+var marker4 = new BMapGL.Marker(new BMapGL.Point(114.223, 30.631));
+var marker5 = new BMapGL.Marker(new BMapGL.Point(114.420005,30.557869));
+var marker6 = new BMapGL.Marker(new BMapGL.Point(114.304546,30.614185));
+var marker7 = new BMapGL.Marker(new BMapGL.Point(114.285069,30.67007));
+var marker8 = new BMapGL.Marker(new BMapGL.Point(114.399429,30.59723));
+// 在地图上添加点标记
+map1.addOverlay(marker1);
+var opts = {
+    width: 200,
+    height: 100,
+    title: '故宫博物院'
+};
+var infoWindow = new BMapGL.InfoWindow('地址：北京市东城区王府井大街88号乐天银泰百货八层', opts);
+// 点标记添加点击事件
+marker1.addEventListener('click', function () {
+    map1.openInfoWindow(infoWindow, point); // 开启信息窗口
+});
+map1.addOverlay(marker2);
+map1.addOverlay(marker3);
+map1.addOverlay(marker4); 
+map1.addOverlay(marker5);
+map1.addOverlay(marker6); 
+map1.addOverlay(marker7);
+map1.addOverlay(marker8);
+    
+//map2.addOverlay(marker1);
+//map2.addOverlay(marker2);
+//map2.addOverlay(marker3);
+//map2.addOverlay(marker4);
+//map2.addOverlay(marker5);
+//map2.addOverlay(marker6);
+//map2.addOverlay(marker7);
+//map2.addOverlay(marker8);
+
+</script>
